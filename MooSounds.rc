@@ -212,11 +212,11 @@ END
 // WAVE
 //
 
-RCDATA_1                WAVE    DISCARDABLE     "Cow-5.wav"
-RCDATA_2                WAVE    DISCARDABLE     "Cow-2.wav"
-RCDATA_3                WAVE    DISCARDABLE     "Cow-3.wav"
-RCDATA_4                WAVE    DISCARDABLE     "Cow-4.wav"
-RCDATA_5                WAVE    DISCARDABLE     "Cow-1.wav"
+RCDATA_1                WAVE    DISCARDABLE     "res\\Cow-5.wav"
+RCDATA_2                WAVE    DISCARDABLE     "res\\Cow-2.wav"
+RCDATA_3                WAVE    DISCARDABLE     "res\\Cow-3.wav"
+RCDATA_4                WAVE    DISCARDABLE     "res\\Cow-4.wav"
+RCDATA_5                WAVE    DISCARDABLE     "res\\Cow-1.wav"
 
 /////////////////////////////////////////////////////////////////////////////
 //
