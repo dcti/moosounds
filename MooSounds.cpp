@@ -50,6 +50,12 @@ BOOL CSystemTrayApp::InitInstance()
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
 
+	// Don't allow multiplex instances.
+	if (::CreateMutex(NULL, TRUE, "MooSounds Mutex") == NULL ||
+		::GetLastError() == ERROR_ALREADY_EXISTS)
+		return FALSE;
+
+	// Create main frame.
 	CMainFrame* pMainFrame = new CMainFrame;
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME))
 		return FALSE;
@@ -58,6 +64,7 @@ BOOL CSystemTrayApp::InitInstance()
 	// For debugging (or something...)
 	// pMainFrame->ActivateFrame();
 
+	// Determine the filename of the outbuffer.
 	FindBuffers(szBufferFilename,sizeof(szBufferFilename));
 
 	return TRUE;
@@ -129,54 +136,52 @@ int CSystemTrayApp::PlayRandomMoo()
 {
 	int resid;
 	int sound = 1 + GetTickCount() % 5;
-      switch (sound)
-      {
-        case 1: resid = RCDATA_1; break;
-        case 2: resid = RCDATA_2; break;
-        case 3: resid = RCDATA_3; break;
-        case 4: resid = RCDATA_4; break;
-        case 5: resid = RCDATA_5; break;
-        default: return 0;
-      }
-      PlayResourceSound(resid);
-		return 0;
+	switch (sound)
+	{
+		case 1: resid = RCDATA_1; break;
+		case 2: resid = RCDATA_2; break;
+		case 3: resid = RCDATA_3; break;
+		case 4: resid = RCDATA_4; break;
+		case 5: resid = RCDATA_5; break;
+		default: return 0;
+	}
+	PlayResourceSound(resid);
+	return 0;
 }
 
 
 void CSystemTrayApp::PlayResourceSound(int soundres)
 {
-
-   HGLOBAL hResource = LoadResource( 0,
-       FindResource(NULL, MAKEINTRESOURCE(soundres), "WAVE"));
-   if (hResource)
-   {
-     LPCSTR sound = ( LPCSTR )LockResource( hResource );
-     if (sound)
-       sndPlaySound( sound, SND_MEMORY | SND_ASYNC);
-     UnlockResource( hResource );
-     FreeResource( hResource );
+	HGLOBAL hResource = LoadResource( 0,
+		FindResource(NULL, MAKEINTRESOURCE(soundres), "WAVE"));
+	if (hResource)
+	{
+		LPCSTR sound = ( LPCSTR )LockResource( hResource );
+		if (sound)
+		sndPlaySound( sound, SND_MEMORY | SND_ASYNC);
+		UnlockResource( hResource );
+		FreeResource( hResource );
    }
-
 }
 
 int CSystemTrayApp::FindBuffers(char *szFilename, int cbLength)
 {
 	CRegKey mrupath;
-	if (mrupath.Open(HKEY_LOCAL_MACHINE
-	,"Software\\Distributed Computing Technologies, Inc.")==ERROR_SUCCESS){
-	DWORD dwLength = cbLength;
-	if (mrupath.QueryValue(szFilename,"MRUClient", &dwLength)==ERROR_SUCCESS){
-	CString mruclient(szFilename);
-	int slashpos=mruclient.ReverseFind('\\');
-	if(slashpos>=0){
-//	mruclient.Delete(slashpos +1, cbLength);
-//	mruclient.SetAt(slashpos +1,0);
-	mruclient=mruclient.Left(slashpos +1) + "buff-out.rc5";
-//	mruclient+="buff-out.csc";
-	lstrcpyn(szFilename, mruclient.GetBuffer(0), cbLength);
-	return 1;
-	}
-	}
+	if (mrupath.Open(HKEY_LOCAL_MACHINE,
+		"Software\\Distributed Computing Technologies, Inc.") == ERROR_SUCCESS)
+	{
+		DWORD dwLength = cbLength;
+		if (mrupath.QueryValue(szFilename,"MRUClient", &dwLength) == ERROR_SUCCESS)
+		{
+			CString mruclient(szFilename);
+			int slashpos=mruclient.ReverseFind('\\');
+			if(slashpos>=0)
+			{
+				mruclient=mruclient.Left(slashpos +1) + "buff-out.rc5";
+				lstrcpyn(szFilename, mruclient.GetBuffer(0), cbLength);
+				return 1;
+			}
+		}
 	}
 	lstrcpyn(szFilename, "buff-out.rc5", cbLength);
 	return 1;
@@ -184,21 +189,21 @@ int CSystemTrayApp::FindBuffers(char *szFilename, int cbLength)
 
 int CSystemTrayApp::GetBufferBlockCount(char *szFilename)
 {
-TRY
-{
-	CFile filebuff(szFilename, CFile::modeRead|CFile::typeBinary);
-	filebuff.Seek(4, CFile::begin);
-	DWORD dwCount;
-	if (filebuff.Read(&dwCount, sizeof(DWORD))==sizeof(DWORD))
-		return (int) ntohl(dwCount);
-}
-CATCH(CFileException, e)
-{
-	#ifdef _DEBUG
-		afxDump  << "File could not be opened" <<e->m_cause <<"\n";
-	#endif
-}
-END_CATCH
+	TRY
+	{
+		CFile filebuff(szFilename, CFile::modeRead|CFile::typeBinary);
+		filebuff.Seek(4, CFile::begin);
+		DWORD dwCount;
+		if (filebuff.Read(&dwCount, sizeof(DWORD))==sizeof(DWORD))
+			return (int) ntohl(dwCount);
+	}
+	CATCH(CFileException, e)
+	{
+		#ifdef _DEBUG
+			afxDump  << "File could not be opened" <<e->m_cause <<"\n";
+		#endif
+	}
+	END_CATCH
 
-return -1;
+	return -1;
 }
