@@ -1,3 +1,10 @@
+The following is a list of items that are open for development by
+others. If you would like to do one of these items, or something else
+that you have thought of that is not listed, please let your intentions
+be known to Jeff Lawson <bovine@distributed.net>
+
+==========
+
 - add a dialog box to configure whether to play a random sound, or a
 specific sound, or a user-selected soundfile.
 
@@ -18,4 +25,8 @@ FindFirstChangeNotification() can be used in a secondary thread to receive
 notifications of changes in the directory containing the buffers and
 then checking the modification timestamps on each of the files to see
 if any of the buffers have legitimately been modified.
+
+- add a button in the (above) config dialog to add/remove MooSounds from
+the current-user's StartUp program manager group.
+
 
