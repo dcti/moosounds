@@ -1,5 +1,5 @@
 ============================================================================
-Version change log: $Id: moosounds.txt,v 1.1 1999/12/05 13:46:43 sludwig Exp $
+Version change log: $Id: moosounds.txt,v 1.2 1999/12/05 23:24:53 jlawson Exp $
 ============================================================================
 
 The GUI win32 client had a setting where the client would "MOO" after each 
@@ -17,8 +17,8 @@ files for CSC, OGR, DES and RC5.
 
 If you run this application on a win32 machine that is running a dist.net
 client, it should automatically find the directory where the client
-resides, and it's buffer files.  Otherwise, put this application right in 
-the same directory as the client and it's buffer files.
+resides, and its buffer files.  Otherwise, put this application right in 
+the same directory as the client and its buffer files.
 
 If you are using remote buffers, or sharing buffers that reside on a different 
 machine, this application will not be able to find and monitor those buffers.
