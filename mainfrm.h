@@ -39,6 +39,7 @@ public:
 
 // Generated message map functions
 protected:
+	afx_msg LRESULT OnTaskbarCreated(WPARAM, LPARAM);
 	//{{AFX_MSG(CMainFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnTimer(UINT nIDEvent);

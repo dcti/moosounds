@@ -15,6 +15,11 @@ static char THIS_FILE[] = __FILE__;
 #define	WM_ICON_NOTIFY			WM_USER+10
 
 
+// Internet Explorer 4.x registers sends a message with this global
+// message number when the taskbar is recreated.
+const UINT m_TaskbarCreatedMsg = RegisterWindowMessage("TaskbarCreated");
+
+
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
@@ -26,6 +31,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_TIMER()
 	//}}AFX_MSG_MAP
 	ON_MESSAGE(WM_ICON_NOTIFY, OnTrayNotification)
+	ON_REGISTERED_MESSAGE( m_TaskbarCreatedMsg, OnTaskbarCreated )
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -66,12 +72,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// Create the tray icon
 	if (!m_TrayIcon.Create(this, WM_ICON_NOTIFY, _T("MooSounds"), NULL, IDR_POPUP_MENU))
 		return -1;
-
-	//m_TrayIcon.SetIcon(IDR_MAINFRAME);
 	HICON hIcon = (HICON) ::LoadImage(AfxGetApp()->m_hInstance, 
 		MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	m_TrayIcon.SetIcon(hIcon);
 	
+	// Register our custom polling timer.
 	SetTimer(1,30*1000,NULL);
 
 	return 0;
@@ -102,4 +107,13 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 	}
 
 	CFrameWnd::OnTimer(nIDEvent);
+}
+
+
+LRESULT CMainFrame::OnTaskbarCreated(WPARAM, LPARAM)
+{
+	// Explorer has restarted, so add ourself back to the system tray.
+	m_TrayIcon.HideIcon();
+	m_TrayIcon.ShowIcon();
+	return 0;
 }
