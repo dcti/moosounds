@@ -86,13 +86,14 @@ LRESULT CMainFrame::OnTrayNotification(WPARAM wParam, LPARAM lParam)
 
 void CMainFrame::OnTimer(UINT nIDEvent) 
 {
-	// TODO: Add your message handler code here and/or call default
-	
-//	::MessageBox(NULL, theApp.szBufferFilename, NULL, MB_OK);
-//	CFrameWnd::OnTimer(nIDEvent);
-   int newcount = theApp.GetBufferBlockCount(theApp.szBufferFilename);
-   if (theApp.iLastBlockCount >= 0 && newcount >= 0 &&
-       newcount > theApp.iLastBlockCount)
-          theApp.PlayRandomMoo();
-   theApp.iLastBlockCount = newcount;
+	for (int contest = 0; contest < 4; contest++)
+	{
+		int newcount = theApp.GetBufferBlockCount(theApp.szBufferFilename[contest]);
+		if (theApp.iLastBlockCount[contest] >= 0 && newcount >= 0 &&
+		   newcount > theApp.iLastBlockCount[contest])
+			  theApp.PlayRandomMoo();
+		theApp.iLastBlockCount[contest] = newcount;
+	}
+
+	CFrameWnd::OnTimer(nIDEvent);
 }

@@ -22,10 +22,10 @@
 class CSystemTrayApp : public CWinApp
 {
 public:
-	int GetBufferBlockCount(char *szFilename);
-	int iLastBlockCount;
-	char szBufferFilename[200];
-	int FindBuffers(char *szFilename, int cbLength);
+	int GetBufferBlockCount(const char *szFilename);
+	int iLastBlockCount[4];
+	char szBufferFilename[4][200];
+	int FindBuffers(const char *extension, char *szFilename, int cbLength);
 	void PlayResourceSound(int soundres);
 	int PlayRandomMoo(void);
 	CSystemTrayApp();

@@ -29,7 +29,11 @@ END_MESSAGE_MAP()
 
 CSystemTrayApp::CSystemTrayApp()
 {
-	iLastBlockCount = -1;
+	for (int contest = 0; contest < 4; contest++)
+	{
+		iLastBlockCount[contest] = -1;
+		szBufferFilename[contest][0] = 0;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -61,11 +65,11 @@ BOOL CSystemTrayApp::InitInstance()
 		return FALSE;
 	m_pMainWnd = pMainFrame;
 
-	// For debugging (or something...)
-	// pMainFrame->ActivateFrame();
-
 	// Determine the filename of the outbuffer.
-	FindBuffers(szBufferFilename,sizeof(szBufferFilename));
+	FindBuffers("rc5", szBufferFilename[0], sizeof(szBufferFilename[0]));
+	FindBuffers("des", szBufferFilename[1], sizeof(szBufferFilename[1]));
+	FindBuffers("csc", szBufferFilename[2], sizeof(szBufferFilename[2]));
+	FindBuffers("ogr", szBufferFilename[3], sizeof(szBufferFilename[3]));
 
 	return TRUE;
 }
@@ -164,7 +168,7 @@ void CSystemTrayApp::PlayResourceSound(int soundres)
    }
 }
 
-int CSystemTrayApp::FindBuffers(char *szFilename, int cbLength)
+int CSystemTrayApp::FindBuffers(const char *szExtension, char *szFilename, int cbLength)
 {
 	CRegKey mrupath;
 	if (mrupath.Open(HKEY_LOCAL_MACHINE,
@@ -177,17 +181,18 @@ int CSystemTrayApp::FindBuffers(char *szFilename, int cbLength)
 			int slashpos=mruclient.ReverseFind('\\');
 			if(slashpos>=0)
 			{
-				mruclient=mruclient.Left(slashpos +1) + "buff-out.rc5";
+				mruclient=mruclient.Left(slashpos +1) + "buff-out." + szExtension;
 				lstrcpyn(szFilename, mruclient.GetBuffer(0), cbLength);
 				return 1;
 			}
 		}
 	}
-	lstrcpyn(szFilename, "buff-out.rc5", cbLength);
+	lstrcpyn(szFilename, "buff-out.", cbLength);
+	lstrcat(szFilename, szExtension);
 	return 1;
 }
 
-int CSystemTrayApp::GetBufferBlockCount(char *szFilename)
+int CSystemTrayApp::GetBufferBlockCount(const char *szFilename)
 {
 	TRY
 	{
