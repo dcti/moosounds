@@ -1,0 +1,21 @@
+- add a dialog box to configure whether to play a random sound, or a
+specific sound, or a user-selected soundfile.
+
+- make the (above) config dialog also show the filenames of the buffer
+files that are currently being monitored (for diagnostic purposes, since
+it might possibly not be determined correctly)
+
+- some people have pointed out that monitoring the buffer files for
+block count increases is not reliable, particularly if people have their
+flush limit set to 1 (in which case a block is written and immediately
+flushed, possibly before MooSounds notices). Maybe MooSounds only needs
+to monitor for any modifications to the buffer files at all (and limit
+the frequency of mooing to one per 2 minutes or something, to prevent
+redundant moos caused by a triggered flush)
+
+- if file modifications are to be monitored, then the Win32 API function
+FindFirstChangeNotification() can be used in a secondary thread to receive
+notifications of changes in the directory containing the buffers and
+then checking the modification timestamps on each of the files to see
+if any of the buffers have legitimately been modified.
+
