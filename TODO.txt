@@ -29,4 +29,6 @@ if any of the buffers have legitimately been modified.
 - add a button in the (above) config dialog to add/remove MooSounds from
 the current-user's StartUp program manager group.
 
+- add option to run MooSounds in a "hidden" mode, for those people with
+little tray space.
 
