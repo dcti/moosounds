@@ -78,6 +78,7 @@ LRESULT CMainFrame::OnTrayNotification(WPARAM wParam, LPARAM lParam)
 {
 	// Delegate all the work back to the default implementation in
 	// CTrayIcon.
+	if (LOWORD(lParam)==WM_LBUTTONDBLCLK) return 1;
 	return m_TrayIcon.OnTrayNotification(wParam, lParam);
 }
 
