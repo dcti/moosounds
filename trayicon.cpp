@@ -274,7 +274,3 @@ LRESULT CTrayIcon::OnTrayNotification(UINT wParam, LONG lParam)
 	return 1;
 }
 
-INT CTrayIcon::PlaySound()
-{
-	return 0;
-}

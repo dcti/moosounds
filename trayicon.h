@@ -18,7 +18,6 @@ public:
 
 // Operations
 public:
-	INT PlaySound();
 	BOOL Enabled() { return m_bEnabled; }
 	BOOL Visible() { return !m_bHidden; }
 
