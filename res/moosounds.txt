@@ -1,0 +1,32 @@
+============================================================================
+Version change log: $Id: moosounds.txt,v 1.1 1999/12/05 13:46:43 sludwig Exp $
+============================================================================
+
+The GUI win32 client had a setting where the client would "MOO" after each 
+block completion.
+
+============================================================================
+                    By popular demand, the MOO is back!
+============================================================================
+
+This small application resides in the Windows Systray and monitors when a 
+client's buff-out file changes.  Each time a block is completed the 
+application will play one of five random "MOO" sounds.  These are the same 
+sounds that the GUI win32 client would play, and will work with buff-out 
+files for CSC, OGR, DES and RC5.
+
+If you run this application on a win32 machine that is running a dist.net
+client, it should automatically find the directory where the client
+resides, and it's buffer files.  Otherwise, put this application right in 
+the same directory as the client and it's buffer files.
+
+If you are using remote buffers, or sharing buffers that reside on a different 
+machine, this application will not be able to find and monitor those buffers.
+Depending on the feedback of this application, maybe that will be added in the
+next build.  
+
+Please send all feedback and suggestions to help@distributed.net
+
+============================================================================
+                             The MOO is back!!
+============================================================================
