@@ -4,14 +4,14 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDR_MAINFRAME                   128
-#define IDR_SYSTEMTYPE                  129
+//#define IDR_SYSTEMTYPE                  129
 #define IDR_POPUP_MENU                  130
 #define RCDATA_1                        131
 #define RCDATA_2                        132
 #define RCDATA_3                        133
 #define RCDATA_4                        134
 #define RCDATA_5                        135
-#define IDI_TRAYICON                    142
+//#define IDI_TRAYICON                    142
 
 // Next default values for new objects
 // 

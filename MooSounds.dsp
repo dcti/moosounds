@@ -172,5 +172,25 @@ SOURCE=.\res\MooSounds.rc2
 SOURCE=.\res\MooSounds1.ico
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=".\res\Cow-1.wav"
+# End Source File
+# Begin Source File
+
+SOURCE=".\res\Cow-2.wav"
+# End Source File
+# Begin Source File
+
+SOURCE=".\res\Cow-3.wav"
+# End Source File
+# Begin Source File
+
+SOURCE=".\res\Cow-4.wav"
+# End Source File
+# Begin Source File
+
+SOURCE=".\res\Cow-5.wav"
+# End Source File
 # End Target
 # End Project

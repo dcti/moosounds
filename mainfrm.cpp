@@ -67,7 +67,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (!m_TrayIcon.Create(this, WM_ICON_NOTIFY, _T("MooSounds"), NULL, IDR_POPUP_MENU))
 		return -1;
 
-	m_TrayIcon.SetIcon(IDI_TRAYICON);
+	//m_TrayIcon.SetIcon(IDR_MAINFRAME);
+	HICON hIcon = (HICON) ::LoadImage(AfxGetApp()->m_hInstance, 
+		MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+	m_TrayIcon.SetIcon(hIcon);
 	
 	SetTimer(1,30*1000,NULL);
 
@@ -76,9 +79,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 LRESULT CMainFrame::OnTrayNotification(WPARAM wParam, LPARAM lParam)
 {
+	// Ignore double-clicks on the tray icon.
+	//if (LOWORD(lParam)==WM_LBUTTONDBLCLK) return 1;
+
 	// Delegate all the work back to the default implementation in
 	// CTrayIcon.
-	if (LOWORD(lParam)==WM_LBUTTONDBLCLK) return 1;
 	return m_TrayIcon.OnTrayNotification(wParam, lParam);
 }
 
